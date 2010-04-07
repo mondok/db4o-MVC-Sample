@@ -7,6 +7,7 @@ using Db4objects.Db4o;
 using Db4objects.Db4o.CS;
 using Db4objects.Db4o.CS.Config;
 using Db4objects.Db4o.Ext;
+using Db4objects.Db4o.Linq;
 using DbShared;
 
 namespace DbWeb.Controllers
@@ -26,7 +27,7 @@ namespace DbWeb.Controllers
 
         public ActionResult Index()
         {
-            IList<ClothingType> clothingTypes = _database.Query<ClothingType>();
+            IList<ClothingType> clothingTypes = _database.Query<ClothingType>().ToList();
             return View(clothingTypes);
         }
 
@@ -46,21 +47,29 @@ namespace DbWeb.Controllers
 
         public ActionResult ClothingTypeDetails(string id)
         {
-            ClothingType clothingType = _database.Query<ClothingType>(c => c.Id == id).First();
+            ClothingType clothingType = (from ClothingType ct in _database
+                                         where ct.Id == id
+                                         select ct).First();
             return View(clothingType);
         }
 
         [AcceptVerbs(HttpVerbs.Get)]
         public ActionResult EditClothingType(string id)
         {
-            ClothingType clothingType = _database.Query<ClothingType>(c => c.Id == id).First();
+            ClothingType clothingType = (from ClothingType ct in _database
+                                         where ct.Id == id
+                                         select ct).First();
+
             return View(clothingType);
         }
 
         [AcceptVerbs(HttpVerbs.Post)]
         public ActionResult EditClothingType(ClothingType clothingType)
         {
-            ClothingType clothingTypeOld = _database.Query<ClothingType>(c => c.Id == clothingType.Id).First();
+            ClothingType clothingTypeOld = (from ClothingType ct in _database
+                                            where ct.Id == clothingType.Id
+                                            select ct).First();
+
             clothingTypeOld.Description = clothingType.Description;
             clothingTypeOld.Name = clothingType.Name;
             clothingTypeOld.Color = clothingType.Color;
@@ -72,7 +81,10 @@ namespace DbWeb.Controllers
         public ActionResult DeleteClothingType(string id)
         {
 
-            ClothingType clothingType = _database.Query<ClothingType>(c => c.Id == id).First();
+            ClothingType clothingType = (from ClothingType ct in _database
+                                         where ct.Id == id
+                                         select ct).First();
+
             _database.Delete(clothingType);
             return RedirectToAction("Index");
         }

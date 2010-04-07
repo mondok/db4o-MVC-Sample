@@ -15,7 +15,15 @@ namespace DbServer
     {
         static void Main(string[] args)
         {
-            new TheServer().Start();
+            try
+            {
+                Console.WriteLine("Server starting...");
+                new TheServer().Start();
+            }
+            catch (Exception ex)
+            {
+                Console.Write(ex);
+            }
         }
     }
 
@@ -25,14 +33,14 @@ namespace DbServer
 
         public void Start()
         {
-            lock(this)
+            lock (this)
             {
                 IServerConfiguration serverConfiguration = Db4oClientServer.NewServerConfiguration();
                 serverConfiguration.Networking.MessageRecipient = this;
                 IObjectServer server = Db4oClientServer.OpenServer(DbConfig.DBNAME, DbConfig.PORT);
-                server.GrantAccess(DbConfig.USER,DbConfig.PASSWORD);
+                server.GrantAccess(DbConfig.USER, DbConfig.PASSWORD);
 
-                while(!_stop)
+                while (!_stop)
                 {
                     Monitor.Wait(this);
                 }
@@ -43,7 +51,7 @@ namespace DbServer
         {
             if (message is StopServer)
             {
-                lock(this)
+                lock (this)
                 {
                     _stop = true;
                     Monitor.PulseAll(this);

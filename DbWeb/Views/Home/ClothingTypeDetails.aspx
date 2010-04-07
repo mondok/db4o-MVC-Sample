@@ -1,12 +1,9 @@
-﻿<%@ Page Language="C#" Inherits="System.Web.Mvc.ViewPage<DbShared.ClothingType>" %>
-
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-
-<html xmlns="http://www.w3.org/1999/xhtml" >
-<head runat="server">
-    <title>Clothing Type Details</title>
-</head>
-<body>
+﻿<%@ Page Language="C#" Inherits="System.Web.Mvc.ViewPage<DbShared.ClothingType>" MasterPageFile="~/Views/Shared/Site.Master" %>
+<asp:Content ID="Content1" ContentPlaceHolderID="TitleContent" runat="server">
+    Clothing Article Details
+</asp:Content>
+<asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
+<h2>Clothing Article Details</h2>
     <fieldset>
         <legend>Fields</legend>
         
@@ -31,6 +28,5 @@
         <%= Html.ActionLink("Back to List", "Index") %>
     </p>
 
-</body>
-</html>
+</asp:Content>
 
