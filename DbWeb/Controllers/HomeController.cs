@@ -47,18 +47,14 @@ namespace DbWeb.Controllers
 
         public ActionResult ClothingTypeDetails(string id)
         {
-            ClothingType clothingType = (from ClothingType ct in _database
-                                         where ct.Id == id
-                                         select ct).First();
+            ClothingType clothingType = _database.Query<ClothingType>(p => p.Id == id).First();
             return View(clothingType);
         }
 
         [AcceptVerbs(HttpVerbs.Get)]
         public ActionResult EditClothingType(string id)
         {
-            ClothingType clothingType = (from ClothingType ct in _database
-                                         where ct.Id == id
-                                         select ct).First();
+            ClothingType clothingType = _database.Query<ClothingType>(p => p.Id == id).First();
 
             return View(clothingType);
         }
@@ -66,6 +62,7 @@ namespace DbWeb.Controllers
         [AcceptVerbs(HttpVerbs.Post)]
         public ActionResult EditClothingType(ClothingType clothingType)
         {
+            // LINQ example
             ClothingType clothingTypeOld = (from ClothingType ct in _database
                                             where ct.Id == clothingType.Id
                                             select ct).First();
@@ -81,9 +78,7 @@ namespace DbWeb.Controllers
         public ActionResult DeleteClothingType(string id)
         {
 
-            ClothingType clothingType = (from ClothingType ct in _database
-                                         where ct.Id == id
-                                         select ct).First();
+            ClothingType clothingType = _database.Query<ClothingType>(p => p.Id == id).First();
 
             _database.Delete(clothingType);
             return RedirectToAction("Index");
