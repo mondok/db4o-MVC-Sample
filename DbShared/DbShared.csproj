@@ -47,6 +47,7 @@
   <ItemGroup>
     <Compile Include="ClothingType.cs" />
     <Compile Include="DbConfig.cs" />
+    <Compile Include="Pet.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StopServer.cs" />
   </ItemGroup>

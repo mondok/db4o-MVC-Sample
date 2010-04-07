@@ -17,6 +17,8 @@ namespace DbShared
 
         public const string DBNAME = "clothes.yap";
 
+        public const string DB_PATH = @"C:\Applications\Testing\CodeCamp2010\Db4oDemo\DbServer\bin\Debug\clothes.yap";
+
 
     }
 }

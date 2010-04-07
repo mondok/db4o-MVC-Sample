@@ -20,5 +20,11 @@ namespace DbShared
         public ClothingType()
         {
         }
+
+        public override string ToString()
+        {
+            return string.Format("Color: {0}, Name: {1}, Description: {2}, Date Purchased: {3}, Id: {4}", this.Color, this.Name,
+                                 this.Description, this.DatePurchased, this.Id);
+        }
     }
 }

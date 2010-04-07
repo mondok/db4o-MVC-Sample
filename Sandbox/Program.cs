@@ -14,27 +14,31 @@ namespace Sandbox
     {
         static void Main(string[] args)
         {
-            IClientConfiguration config = Db4oClientServer.NewClientConfiguration();
-            config.Common.ObjectClass(typeof(ClothingType)).CascadeOnUpdate(true);
-            config.Common.ObjectClass(typeof(ClothingType)).CascadeOnActivate(true);
+            // local
+            Console.WriteLine("Running with local database (embedded)");
 
-            config.Common.ObjectClass(typeof(ClothingType)).GenerateUUIDs(true);
+            using (Db4oSample sample = new Db4oSample(false))
+            {
+                sample.Run();
+            }
 
-            IObjectContainer db =
-                Db4oClientServer.OpenClient(config, DbConfig.HOST, DbConfig.PORT, DbConfig.USER, DbConfig.PASSWORD);
-            //Db4oEmbedded.OpenFile(@"C:\Applications\Testing\CodeCamp2010\Db4oDemo\DbServer\bin\Debug\clothes.yap");
+            Console.WriteLine("Local test complete - hit any key to continue");
+            Console.ReadKey();
 
-            //db.Store(new ClothingType() { Color = "Red", DatePurchased = DateTime.Now, Description = "Mesh shorts", Id = "1", Name = "Shorts" });
+            // client server
+            Console.WriteLine("**********  Start server, hit key  **********");
+            Console.ReadKey();
 
-            //db.Commit();
+            Console.WriteLine("Running with client/server model");
 
-            var clothesLinq = from ClothingType c in db
-                      where c.Id == "1"
-                      select c;
-            var t = db.Query<ClothingType>(p => p.Id == "1").ToList();
-            var clinq = clothesLinq.ToList();
+            using (Db4oSample sample = new Db4oSample(true))
+            {
+                sample.Run();
+            }
 
-            var clothes = db.Query<ClothingType>().ToList();
+            Console.WriteLine("Client/Server test complete - hit any key to continue");
+            Console.ReadKey();
         }
+
     }
 }
